@@ -25,9 +25,15 @@ Version: see [`CHANGELOG.md`](CHANGELOG.md).
 The contract carries the engineering discipline, so the kickoff prompt stays tiny:
 
 ```
-Build the application defined in docs/agent/ per AGENTS.md.
-Start at the first unchecked backlog item and run the loop until a Stop condition fires.
+Read AGENTS.md and docs/agent/, then confirm scope with me (AGENTS.md §3 Step 0)
+before building — tell me what you will and won't build and wait for my OK.
+After I confirm, build per AGENTS.md, working the backlog in order until a Stop
+condition fires.
 ```
+
+On the first run the agent will read the harness files and **ask you to confirm scope**
+(what it will and won't build) before writing any code. It records your answer in
+`STATE.md` and won't ask again unless scope changes.
 
 The agent reads `AGENTS.md` + `docs/agent/`, works one backlog item at a time, tests every
 component with evidence, self-reviews each item, and a fresh reviewer subagent verifies at

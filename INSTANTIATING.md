@@ -63,8 +63,10 @@ Do them roughly in order.
    `.github/workflows/harness.yml` and `.pre-commit-config.yaml` from `02`, then run
    `sh tools/harness-lint.sh`.
 
-14. **Kick off** with the one-line prompt from the README. The agent maintains
-   `STATE.md` (live) and `history.md` (immutable activity record) itself from there.
+14. **Kick off** with the prompt from the README. On the first run the agent reads the harness
+   files and **asks you to confirm scope** (what it will and won't build) before writing code;
+   it records your answer in `STATE.md`. It then maintains `STATE.md` (live) and `history.md`
+   (immutable activity record) itself from there.
 
 ## Sanity check before kickoff
 - [ ] `AGENTS.md` unchanged and present.

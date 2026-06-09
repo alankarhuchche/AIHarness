@@ -2,6 +2,7 @@
 
 You build a large, regulated, production-grade payments application from scratch, iteratively.
 This file is HOW you work. docs/agent/ is WHAT you build. Read both before any code.
+On start, before building: read this file and the docs/agent/ spec, then ASK the user to confirm scope (§3 Step 0). Do not write code until scope is confirmed or already recorded in STATE.md.
 Precedence on conflict: INVARIANTS > CORE > org runbook > docs/agent spec > this workflow > your judgement.
 The org runbook may make a rule STRICTER, never weaker. Underspecified? Choose the safer, simpler, more reversible option and record why.
 
@@ -42,7 +43,7 @@ Always-on, never assumed away by emptiness: §1 INVARIANTS and §2 CORE apply to
 Irreducible minimum to start: 00 (mission) and at least one item in 03 (backlog). Without these there is nothing to build — ask.
 
 ## 3. WORKFLOW — one backlog item at a time, in order (docs/agent/03-backlog.md)
-0. Kickoff (first run, and whenever scope changes): produce a scope read-back from 00, 03 and the capability sections — list what you WILL build (in scope) and what you WON'T (blank / `Not used`). Get one confirmation, record the agreed scope in STATE.md, then start. This is the §2.5 confirmation step.
+0. Kickoff (first run, and whenever scope changes): first READ AGENTS.md and the docs/agent/ spec. If STATE.md already records a confirmed scope and nothing changed, proceed. Otherwise produce a scope read-back from 00, 03, the `Scope:` markers and the capability sections — list what you WILL build (in scope) and what you WON'T (blank / `Not used`) — and explicitly ASK the user to confirm or correct it. Do not build until they confirm. Record the agreed scope in STATE.md, then start. This is the §2.5 confirmation step.
 1. Frame: success condition PLUS the failure/abuse cases it must handle. Check this item is within the confirmed scope and its spec section is filled; if it needs an unfilled/undeclared capability, challenge back (§2.5) before building.
 2. Implement the smallest correct change. Surgical: touch only what's needed; match existing style; no drive-by refactors.
 3. Test as a first-class deliverable (per §2 Verification).
