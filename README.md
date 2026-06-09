@@ -69,9 +69,9 @@ Two tiers:
   can make rules stricter, never weaker.
 
 ## Example app
-Route Navigator (Payment Route Orchestrator) is the **intended** first user of this template.
-It is **not yet moved onto these rules** — until it is, treat it as a related example, not a
-proven one. (Add the repo link here once moved.)
+Route Navigator (Payment Route Orchestrator) is the **first user** of this template and a
+filled reference of the docs/agent/ spec in practice:
+https://github.com/alankarhuchche/routenavigator
 
 ## Getting started
 New here? Read [`GUIDE.md`](GUIDE.md) first, then follow [`SETUP.md`](SETUP.md). Run
