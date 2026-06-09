@@ -2,6 +2,15 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.5.0 — 2026-06-09
+Plainer English for a wider, basic-English audience, plus the commands change.
+- Commands: the agent now proposes build/test commands while scaffolding and the user confirms —
+  the team no longer has to write them by hand up front (AGENTS.md §5, 02, SETUP).
+- Simplified headings and framing across AGENTS.md, README and SETUP; kept the precise technical
+  terms but glossed the hard ones (idempotency, drift, etc.).
+- Renamed INSTANTIATING.md → SETUP.md.
+- Added a plain-English glossary ("Words we use") to the README.
+
 ## v0.4.0 — 2026-06-09
 Fix the scope-inference limitation: replace guessing with declaration + confirmation.
 - AGENTS.md §2.5: scope is resolved by explicit `Scope: Used/Not used` markers first, then a

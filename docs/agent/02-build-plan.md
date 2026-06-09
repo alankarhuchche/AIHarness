@@ -16,8 +16,10 @@
 
 Each phase boundary triggers a fresh reviewer subagent (AGENTS.md §4).
 
-## Commands (agents run exactly what's written here)
-> Local verification must not require live external credentials or production infra.
+## Commands (the agent runs exactly what's written here)
+> You don't have to write these by hand up front. The agent proposes them while it sets up
+> (scaffolds) the project and asks you to confirm. Running them locally must not need live
+> external systems or production access.
 
 | Purpose | Command |
 |---------|---------|

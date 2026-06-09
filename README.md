@@ -1,80 +1,97 @@
 # Payments Agent Harness
 
-A reusable **innersource template** for building regulated, banking-grade payments
-applications from scratch with AI coding agents — efficiently, iteratively, and to a
-production bar (idempotency, effectively-once value movement, audit, exception handling,
-security, resilience, RTO/SLA, AI/model-risk control, and verification with evidence).
+A reusable **starter kit** for building bank-grade payments apps from scratch with AI coding
+agents — step by step, to a production standard (safe retries, no duplicate or lost money,
+full audit log, proper error handling, security, recovery, and "show the proof" testing).
 
-This repo is **code-free on purpose**. It ships the *harness* — the operating contract
-and the spec skeleton — not an application. You instantiate it per project.
+It's a **shared template** your teams copy for each new project (sometimes called *innersource*).
 
-Version: see [`CHANGELOG.md`](CHANGELOG.md).
+This repo has **no application code on purpose**. It ships the *rules* and the *fill-in-the-blanks
+spec* — not an app. You copy it and fill it in per project.
+
+Version: see [`CHANGELOG.md`](CHANGELOG.md). New to a word? See **[Words we use](#words-we-use)** below.
 
 ## What's in here
-- [`AGENTS.md`](AGENTS.md) — the operating contract (HOW agents work). Generic to any
-  payments application; drops in unchanged.
-- [`docs/agent/`](docs/agent/) — the spec skeleton (WHAT to build). Placeholders you fill
-  in per project.
+- [`AGENTS.md`](AGENTS.md) — the rules for HOW the agent works. Generic; copy it unchanged.
+- [`docs/agent/`](docs/agent/) — the WHAT-to-build spec. Blank files you fill in per project.
 - [`tools/harness-lint.sh`](tools/harness-lint.sh), [`.github/workflows/harness.yml`](.github/workflows/harness.yml),
-  [`.pre-commit-config.yaml`](.pre-commit-config.yaml) — the harness checks its own
-  consistency and gives the project a CI/pre-commit gate to wire its real commands into.
-- [`INSTANTIATING.md`](INSTANTIATING.md) — the step-by-step checklist to turn this template
-  into a real project.
+  [`.pre-commit-config.yaml`](.pre-commit-config.yaml) — the harness checks itself, and gives
+  you a place to plug in your build/test commands.
+- [`SETUP.md`](SETUP.md) — the step-by-step setup checklist.
 
 ## How it works
-The contract carries the engineering discipline, so the kickoff prompt stays tiny:
+The rules live in `AGENTS.md`, so the starting prompt is tiny:
 
 ```
 Read AGENTS.md and docs/agent/, then confirm scope with me (AGENTS.md §3 Step 0)
 before building — tell me what you will and won't build and wait for my OK.
-After I confirm, build per AGENTS.md, working the backlog in order until a Stop
-condition fires.
+After I confirm, build per AGENTS.md, working the backlog in order until you must stop.
 ```
 
-On the first run the agent will read the harness files and **ask you to confirm scope**
-(what it will and won't build) before writing any code. It records your answer in
-`STATE.md` and won't ask again unless scope changes.
+On the first run the agent reads the files and **asks you to confirm scope** (what it will and
+won't build) before writing any code. It saves your answer in `STATE.md` and won't ask again
+unless the scope changes.
 
-The agent reads `AGENTS.md` + `docs/agent/`, works one backlog item at a time, tests every
-component with evidence, self-reviews each item, and a fresh reviewer subagent verifies at
-each phase boundary. All work is logged to an immutable activity record.
+After that it works one to-do item at a time, tests every part and shows the proof, checks its
+own work, and (at the end of each phase) a fresh second agent double-checks it. Everything it
+does is written to an add-only log.
 
-## Minimal vs full (don't let it become shelf-ware)
-You do not need every file on day one. **Fill only what you need — blanks are meaningful:**
-- **Leave a capability section blank** (a database, Kafka, file transfer, AI, etc.) and the
-  agent treats that component as **out of scope and does not build it** (AGENTS.md §2.5).
-- **Ask for something you didn't fill in** and the agent **stops and asks** instead of guessing.
-- **Safety is never assumed away by a blank.** The invariants and core quality bar (value
-  integrity, idempotency, audit, security baseline) apply to *whatever you do build*, filled or
-  not. An empty security file means "this feature is out of scope," never "skip security."
-- **Irreducible minimum to start:** the mission (00) and at least one backlog item (03).
+## Fill only what you need (so it doesn't become shelf-ware)
+You don't need every file on day one. **Blanks are meaningful:**
+- **Leave a section blank** (a database, a queue, file transfer, AI, etc.) and the agent treats
+  that part as **not in this build** and won't build it.
+- **Ask for something you left blank** and the agent **stops and asks** instead of guessing.
+- **A blank never switches off safety.** The hard rules and the always-on quality rules (no
+  duplicate/lost money, safe retries, audit log, security basics) apply to *whatever you do
+  build*. An empty security file means "this feature isn't in scope," never "skip security."
+- **Least you need to start:** the mission (00) and one to-do item (03).
 
-Two tiers, then:
-- **Minimal (always):** `AGENTS.md`, and `docs/agent/` 00 (mission), 03 (backlog). Add 01
-  (rules), 02 (commands) and 05 (scenarios) as soon as there's real code to build and verify.
-- **By relevance (add when it applies):** 04 (acceptance, as paths land), 06 (integration —
-  per integration used), 07 (security/secrets — any app with credentials/keys/PAN/PII),
-  08 (AI/model risk — any app with an LLM/ML component), 09 (traceability — when you need an
-  audit trail).
+Two tiers:
+- **Always:** `AGENTS.md`, plus `docs/agent/` 00 (mission) and 03 (to-do list). Add 01 (rules),
+  02 (commands) and 05 (examples) as soon as there's real code to build and test.
+- **Only when it applies:** 04 (the five checks), 06 (each thing the app connects to), 07
+  (security/secrets — any app with passwords, keys, card numbers or personal data), 08 (AI — any
+  app using AI/ML), 09 (audit trail).
 
-## Design principles (why it's shaped this way)
-- **Lean contract, deep references.** `AGENTS.md` stays lean (~60–130 lines); depth lives in
-  referenced `docs/agent/` files loaded on demand. Contracts past ~150 lines degrade agent
-  performance and get overridden by surrounding files.
-- **Invariants vs. core vs. conditional.** Domain invariants and a non-waivable Core quality
-  contract always apply; conditional rules can be marked N/A per project *with a reason*.
-- **Verification with evidence, not assertion.** "Seems right" and "I'll test later" are
-  banned. UI is exercised and screenshotted, not just built. The harness lints itself.
-- **One source of truth per rule.** Acceptance criteria and integration checklists *reference*
-  the contract; they don't restate it, so edits don't drift.
-- **Org runbook hook.** Drop your organisation's engineering standards into
-  `docs/agent/org-runbook.md`; it can make rules stricter, never weaker.
+## Why it's shaped this way
+- **Short rules file, deeper details linked.** `AGENTS.md` stays short (~60–130 lines); detail
+  lives in `docs/agent/` files the agent opens only when needed. Very long rules files make
+  agents perform worse.
+- **Three rule types.** Hard rules (never break), always-on rules (every change), and switch-off
+  rules (skip with a written reason).
+- **Show the proof, don't claim it.** "Looks right" and "I'll test later" are banned. The UI is
+  actually run and screenshotted, not just built. The harness even checks itself.
+- **Say each rule once.** The checklists point back to the rules instead of repeating them, so
+  edits don't drift out of step.
+- **Org policy hook.** Drop your organisation's standards into `docs/agent/org-runbook.md`; it
+  can make rules stricter, never weaker.
 
-## Worked reference
-Route Navigator (Payment Route Orchestrator) is the **intended** first consumer of this
-harness. It is not yet migrated to this contract — until it is, treat it as a related example,
-not a conformant reference. (Add the repo link here once migrated.)
+## Example app
+Route Navigator (Payment Route Orchestrator) is the **intended** first user of this template.
+It is **not yet moved onto these rules** — until it is, treat it as a related example, not a
+proven one. (Add the repo link here once moved.)
 
 ## Getting started
-See [`INSTANTIATING.md`](INSTANTIATING.md). Run `sh tools/harness-lint.sh` any time to check
-consistency.
+See [`SETUP.md`](SETUP.md). Run `sh tools/harness-lint.sh` any time to check the files are consistent.
+
+## Words we use
+- **Harness** — the set of rules and files around the AI agent that guide how it builds.
+- **Agent** — the AI that writes the code by following these files.
+- **Scope** — what's in this build and what's left out.
+- **Backlog** — the ordered to-do list (`docs/agent/03`).
+- **Scaffold** — set up the empty project structure before writing real features.
+- **Hard rule (invariant)** — a rule that must never be broken.
+- **Idempotent / safe to retry** — running the same action again does nothing extra (no double
+  payment).
+- **Audit log** — an add-only record of every important decision and change, for later review.
+- **Redaction** — hiding sensitive data (secrets, card numbers, personal data) before it's logged
+  or sent anywhere.
+- **Reconciliation** — checking two records agree (e.g. money sent vs money received).
+- **Fallback** — a safe backup path used before the point of no return.
+- **Point of no return** — the moment after which a payment can't be undone, only serviced.
+- **Vault / HSM / PAM** — secure places to store secrets and keys; PAM also controls privileged
+  human access.
+- **SLA** — the speed and uptime target for a request. **RTO** — how fast a part must recover
+  after a failure.
+- **PII / PAN** — personal data / card number. Both are sensitive and must be protected.
+- **ADR** — a short note recording a decision and why (`docs/agent/adr/`).
