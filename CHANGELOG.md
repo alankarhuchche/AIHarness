@@ -2,6 +2,11 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.6.1 — 2026-06-09
+- harness-lint: new check that GUIDE.md's folder map lists every doc that exists — catches a
+  file being added/renamed without updating the guide.
+- README glossary: explain "lint / consistency check".
+
 ## v0.6.0 — 2026-06-09
 Add a full explainer document.
 - New `GUIDE.md`: the concept, the mental model, how a build runs end to end, the folder map,

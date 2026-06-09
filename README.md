@@ -79,6 +79,9 @@ New here? Read [`GUIDE.md`](GUIDE.md) first, then follow [`SETUP.md`](SETUP.md).
 
 ## Words we use
 - **Harness** — the set of rules and files around the AI agent that guide how it builds.
+- **Lint / consistency check** — an automatic check that scans the files for mistakes or things
+  that don't match, before you run anything (like a spell-checker for the project).
+  `tools/harness-lint.sh` is ours.
 - **Agent** — the AI that writes the code by following these files.
 - **Scope** — what's in this build and what's left out.
 - **Backlog** — the ordered to-do list (`docs/agent/03`).

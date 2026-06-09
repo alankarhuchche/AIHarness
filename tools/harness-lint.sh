@@ -50,6 +50,19 @@ else
   note "note: .harness-instantiated not present — skipping fill-state checks (template mode)."
 fi
 
+# 4. GUIDE.md folder map stays in step with the files that actually exist.
+#    If a doc is added or renamed but not listed in the guide's map, flag it.
+if [ -f "GUIDE.md" ]; then
+  guide_files=""
+  for f in docs/agent/*.md; do guide_files="$guide_files $f"; done
+  guide_files="$guide_files AGENTS.md README.md SETUP.md GUIDE.md CHANGELOG.md"
+  for f in $guide_files; do
+    [ -f "$f" ] || continue
+    base=$(basename "$f")
+    grep -q "$base" GUIDE.md || err "GUIDE.md folder map is missing: $base (add it to the map in section 4)"
+  done
+fi
+
 if [ "$fail" -eq 0 ]; then
   note "harness-lint: OK"
 else
