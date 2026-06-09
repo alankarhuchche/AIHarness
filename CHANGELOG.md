@@ -2,6 +2,17 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.3.0 — 2026-06-09
+Make the harness usable by lean teams without losing safety.
+- Add AGENTS.md §2.5 "Fill-state semantics": a blank capability section ⇒ component out of
+  scope (not built); a request needing a blank section ⇒ stop and ask (challenge-back);
+  invariants + core safety always apply regardless of blanks; minimum to start is mission +
+  one backlog item.
+- Add a matching Stop condition (request/backlog needs an unfilled capability → ask).
+- `harness-lint`: instantiated mode now hard-fails only on missing mission/backlog; other
+  blanks are reported as "assumed out of scope," not failures.
+- README/INSTANTIATING: document the blank-means-skip behaviour for basic teams.
+
 ## v0.2.0 — 2026-06-09
 Cleanup pass after a full review.
 - Add `08-ai-model-risk.md` — model-risk governance + prompt-injection defence for any LLM/ML

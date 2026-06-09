@@ -28,18 +28,26 @@ for r in $refs; do
   [ -f "$r" ] || err "broken doc reference: $r"
 done
 
-# 3. Fill-in completeness — only when the project declares itself instantiated.
+# 3. Fill-state — only when the project declares itself instantiated.
+# Per AGENTS.md §2.5: fill only what you need. The irreducible minimum to start is a mission
+# and at least one backlog item; everything else left blank is read as "out of scope" — so it
+# is reported, not failed. Safety still applies to whatever IS built (the contract enforces it).
 if [ -f ".harness-instantiated" ]; then
-  must_fill="docs/agent/00-mission.md docs/agent/01-architecture-rules.md \
-docs/agent/02-build-plan.md docs/agent/03-backlog.md docs/agent/05-scenarios.md \
-docs/agent/07-security-and-secrets.md"
-  for f in $must_fill; do
+  for f in docs/agent/00-mission.md docs/agent/03-backlog.md; do
     if grep -q '<fill-in' "$f" 2>/dev/null; then
-      err "unfilled <fill-in> remaining in $f"
+      err "irreducible minimum unfilled: $f (mission and a backlog item are required to start)"
+    fi
+  done
+  for f in docs/agent/01-architecture-rules.md docs/agent/02-build-plan.md \
+           docs/agent/05-scenarios.md docs/agent/06-integration-and-stack.md \
+           docs/agent/07-security-and-secrets.md docs/agent/08-ai-model-risk.md \
+           docs/agent/09-traceability.md; do
+    if grep -q '<fill-in' "$f" 2>/dev/null; then
+      note "info: $f still has placeholders — those parts are assumed out of scope (AGENTS.md §2.5)."
     fi
   done
 else
-  note "note: .harness-instantiated not present — skipping fill-in checks (template mode)."
+  note "note: .harness-instantiated not present — skipping fill-state checks (template mode)."
 fi
 
 if [ "$fail" -eq 0 ]; then

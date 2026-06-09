@@ -4,6 +4,11 @@ You don't need every file on day one — see the **Minimal vs full** section in 
 Steps 1–6 are the minimal set required before the first kickoff; 7–11 are added by relevance.
 Do them roughly in order.
 
+> Blanks are meaningful (AGENTS.md §2.5): a capability section you leave blank is treated as
+> out of scope and won't be built; if you later ask for something you didn't fill in, the agent
+> stops and asks rather than guessing. Safety/invariants still apply to whatever IS built. The
+> only things you must fill to start are the mission (00) and one backlog item (03).
+
 1. **Copy the template** into your new project repo (copy the files; do not fork the git
    history). Keep `AGENTS.md` as-is — it's generic.
 

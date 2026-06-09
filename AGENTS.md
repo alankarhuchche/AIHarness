@@ -32,8 +32,14 @@ The org runbook may make a rule STRICTER, never weaker. Underspecified? Choose t
   - Do show evidence: paste the real command and its real output (test summary, build log, screenshot path). Don't assert "seems right"/"should work", skip a layer because it's hard, or say "I'll test later".
 - Conditional rules (concurrency, data residency, determinism, reversibility, SLA, RTO, supply chain): see docs/agent/01; each applies unless marked N/A there WITH a reason.
 
+## 2.5 FILL-STATE SEMANTICS — how to read an unfilled spec (fill only what you need)
+- Always-on, never assumed away by emptiness: §1 INVARIANTS and §2 CORE apply to everything you build, regardless of what the spec leaves blank. An empty security/secrets (07) or AI (08) section does NOT mean "skip security/safety" — apply the default baseline and flag it for confirmation; it only means that *feature* may be out of scope.
+- Capabilities out of scope by default: if an integration/feature section (docs/agent/06, 08, and optional features) is left in template/placeholder state AND nothing in 00 (mission), 03 (backlog), or the user's request needs it — treat that component as OUT OF SCOPE. Don't build it. Note the assumption in STATE.md.
+- Challenge back when the ask needs a blank: if 00, 03, or a user request DOES need a capability whose section is unfilled, do not guess. Stop and ask, OR state one explicit assumption and record it as an ADR, before building. Unfilled-but-required is a blocking ambiguity, not a default.
+- Irreducible minimum to start: 00 (mission) and at least one item in 03 (backlog). Without these there is nothing to build — ask.
+
 ## 3. WORKFLOW — one backlog item at a time, in order (docs/agent/03-backlog.md)
-1. Frame: success condition PLUS the failure/abuse cases it must handle.
+1. Frame: success condition PLUS the failure/abuse cases it must handle. Check the spec section this item needs is filled; if it needs an unfilled capability, challenge back (§2.5) before building.
 2. Implement the smallest correct change. Surgical: touch only what's needed; match existing style; no drive-by refactors.
 3. Test as a first-class deliverable (per §2 Verification).
 4. Verify: run §5 commands; paste real command + real outcome.
@@ -49,7 +55,7 @@ Don't pause between items unless a Stop condition (§6) fires.
 Build, unit, integration, lint/format, type-check, security/dependency scan, UI smoke — see docs/agent/02. Local verification must not require live external credentials or production infra.
 
 ## 6. STOP CONDITIONS — halt and report; don't guess
-Requirements contradict each other or an INVARIANT · a security/compliance/control boundary would be crossed · a secret/key would have to be committed to the repo or stored below the tier its data classification requires · missing credentials or denied permission · build can't progress after reasonable local debugging · an irreversible/destructive action is required that the spec didn't authorize.
+Requirements contradict each other or an INVARIANT · a security/compliance/control boundary would be crossed · a secret/key would have to be committed to the repo or stored below the tier its data classification requires · the request or a backlog item needs a capability whose spec section is unfilled (ask, don't guess — §2.5) · missing credentials or denied permission · build can't progress after reasonable local debugging · an irreversible/destructive action is required that the spec didn't authorize.
 
 ## 7. CONTEXT DISCIPLINE
 - Read STATE.md (live snapshot), not the full history. Prefer narrow, targeted reads over whole-file reads. Keep diffs small.

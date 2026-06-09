@@ -34,13 +34,22 @@ component with evidence, self-reviews each item, and a fresh reviewer subagent v
 each phase boundary. All work is logged to an immutable activity record.
 
 ## Minimal vs full (don't let it become shelf-ware)
-You do not need every file on day one. Two tiers:
-- **Minimal (always):** `AGENTS.md`, and `docs/agent/` 00 (mission), 01 (rules + invariants),
-  02 (commands), 03 (backlog), 05 (scenarios). This is enough to start safely.
+You do not need every file on day one. **Fill only what you need — blanks are meaningful:**
+- **Leave a capability section blank** (a database, Kafka, file transfer, AI, etc.) and the
+  agent treats that component as **out of scope and does not build it** (AGENTS.md §2.5).
+- **Ask for something you didn't fill in** and the agent **stops and asks** instead of guessing.
+- **Safety is never assumed away by a blank.** The invariants and core quality bar (value
+  integrity, idempotency, audit, security baseline) apply to *whatever you do build*, filled or
+  not. An empty security file means "this feature is out of scope," never "skip security."
+- **Irreducible minimum to start:** the mission (00) and at least one backlog item (03).
+
+Two tiers, then:
+- **Minimal (always):** `AGENTS.md`, and `docs/agent/` 00 (mission), 03 (backlog). Add 01
+  (rules), 02 (commands) and 05 (scenarios) as soon as there's real code to build and verify.
 - **By relevance (add when it applies):** 04 (acceptance, as paths land), 06 (integration —
   per integration used), 07 (security/secrets — any app with credentials/keys/PAN/PII),
   08 (AI/model risk — any app with an LLM/ML component), 09 (traceability — when you need an
-  audit trail). Mark a whole file "not applicable" with a reason rather than half-filling it.
+  audit trail).
 
 ## Design principles (why it's shaped this way)
 - **Lean contract, deep references.** `AGENTS.md` stays lean (~60–130 lines); depth lives in
