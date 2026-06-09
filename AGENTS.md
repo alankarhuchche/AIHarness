@@ -60,4 +60,4 @@ Append one entry per completed/blocked item; never rewrite (corrections are new 
 timestamp · item · change summary · files · commands run + REAL outcomes · verification evidence · ADR refs · next item · blockers.
 
 ## References (loaded on demand)
-docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)
+docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · 06-integration-and-stack.md (db, eventing, MQ, APIs, file transfer, data egress, crypto) · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)

@@ -27,4 +27,5 @@ Each phase boundary triggers a fresh reviewer subagent (AGENTS.md §4).
 | Lint / format | `<fill-in>` |
 | Type-check | `<fill-in>` |
 | Security / dependency scan | `<fill-in>` |
-| UI smoke (render + interaction + screenshot) | `<fill-in>` |
+| UI smoke (render + interaction + screenshot) | `<fill-in: e.g. Playwright>` |
+| Integration/contract smoke (db, eventing, MQ, file) | `<fill-in: see 06-integration-and-stack.md>` |

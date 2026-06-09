@@ -3,9 +3,13 @@
 > Template. This is the highest-value file to fill carefully. Replace every `<fill-in>`.
 
 ## Stack rules
-<fill-in: backend language/framework, API style, frontend stack, data store strategy
-(start with mock/local data behind services/repositories so a real DB can replace it later
-without rewriting decision logic), AI integration boundary, deployment target.>
+<fill-in: backend language/framework, API style, frontend stack + design system, data store
+strategy (start with mock/local data behind services/repositories so a real DB can replace it
+later without rewriting decision logic), AI integration boundary, deployment target.>
+
+> Integration & infrastructure detail (database, event streaming/Kafka, MQ, sync APIs, SOAP,
+> file transfer, data-lake egress, crypto/secrets, reconciliation, UI/test stack) lives in
+> `06-integration-and-stack.md`. Fill that file for every integration the project uses.
 
 ## Service boundaries
 Implement these as separate classes/services even within one app initially:
