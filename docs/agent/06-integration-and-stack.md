@@ -6,6 +6,11 @@
 > considerations are met (they are NOT optional where the pattern is used — they map to
 > AGENTS.md §1 invariants and §2 Core/Conditional rules).
 >
+> Declaring scope (optional but removes guesswork): start any section with `Scope: Used` or
+> `Scope: Not used`. An explicit `Not used` is authoritative — that component is not built and
+> the agent won't ask about it (AGENTS.md §2.5). Leave it blank to decide at the kickoff
+> scope read-back instead.
+>
 > Golden rule for anything that moves value AND emits an event/message/file: use the
 > **transactional outbox** pattern (commit the state change and the outbound record in one
 > local transaction; publish from the outbox) so you get effectively-once delivery without

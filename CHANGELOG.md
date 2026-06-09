@@ -2,6 +2,15 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.4.0 — 2026-06-09
+Fix the scope-inference limitation: replace guessing with declaration + confirmation.
+- AGENTS.md §2.5: scope is resolved by explicit `Scope: Used/Not used` markers first, then a
+  one-time kickoff read-back confirmed by the user and recorded in STATE.md, then blank = out
+  of scope; when unsure, fail toward asking.
+- AGENTS.md §3: new Step 0 — kickoff scope read-back (what will/won't be built) before the loop.
+- STATE.md: records confirmed in/out scope and the confirmation date.
+- 06: optional `Scope: Used/Not used` per-section marker documented.
+
 ## v0.3.0 — 2026-06-09
 Make the harness usable by lean teams without losing safety.
 - Add AGENTS.md §2.5 "Fill-state semantics": a blank capability section ⇒ component out of

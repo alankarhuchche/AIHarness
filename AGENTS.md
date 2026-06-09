@@ -33,13 +33,17 @@ The org runbook may make a rule STRICTER, never weaker. Underspecified? Choose t
 - Conditional rules (concurrency, data residency, determinism, reversibility, SLA, RTO, supply chain): see docs/agent/01; each applies unless marked N/A there WITH a reason.
 
 ## 2.5 FILL-STATE SEMANTICS — how to read an unfilled spec (fill only what you need)
-- Always-on, never assumed away by emptiness: §1 INVARIANTS and §2 CORE apply to everything you build, regardless of what the spec leaves blank. An empty security/secrets (07) or AI (08) section does NOT mean "skip security/safety" — apply the default baseline and flag it for confirmation; it only means that *feature* may be out of scope.
-- Capabilities out of scope by default: if an integration/feature section (docs/agent/06, 08, and optional features) is left in template/placeholder state AND nothing in 00 (mission), 03 (backlog), or the user's request needs it — treat that component as OUT OF SCOPE. Don't build it. Note the assumption in STATE.md.
-- Challenge back when the ask needs a blank: if 00, 03, or a user request DOES need a capability whose section is unfilled, do not guess. Stop and ask, OR state one explicit assumption and record it as an ADR, before building. Unfilled-but-required is a blocking ambiguity, not a default.
-- Irreducible minimum to start: 00 (mission) and at least one item in 03 (backlog). Without these there is nothing to build — ask.
+Scope is DECLARED and CONFIRMED, not guessed. Resolve it in this order:
+1. Explicit declaration wins: a capability section may carry `Scope: Used` or `Scope: Not used`. An explicit `Not used` is authoritative — don't build it and don't ask. An explicit `Used` means build it to spec.
+2. Confirm scope once at kickoff: before building, read back what you WILL and WON'T build (in-scope vs out-of-scope/blank) and get one confirmation from the user; record the agreed scope in STATE.md. Build to that recorded scope; re-confirm only when scope changes.
+3. After confirmation, a blank section = out of scope: don't build it. (The kickoff read-back is what turns inference into an agreed decision.)
+4. Ask when unsure or when the ask needs a blank: if a request or backlog item needs a capability that is blank or undeclared, do not guess — stop and ask, or state one explicit assumption and record it as an ADR, before building. When confidence is low, fail toward asking, never toward silently building or skipping.
+Always-on, never assumed away by emptiness: §1 INVARIANTS and §2 CORE apply to everything you build, regardless of blanks. An empty 07/08 section means that *feature* may be out of scope — never "skip security/safety" on what you do build.
+Irreducible minimum to start: 00 (mission) and at least one item in 03 (backlog). Without these there is nothing to build — ask.
 
 ## 3. WORKFLOW — one backlog item at a time, in order (docs/agent/03-backlog.md)
-1. Frame: success condition PLUS the failure/abuse cases it must handle. Check the spec section this item needs is filled; if it needs an unfilled capability, challenge back (§2.5) before building.
+0. Kickoff (first run, and whenever scope changes): produce a scope read-back from 00, 03 and the capability sections — list what you WILL build (in scope) and what you WON'T (blank / `Not used`). Get one confirmation, record the agreed scope in STATE.md, then start. This is the §2.5 confirmation step.
+1. Frame: success condition PLUS the failure/abuse cases it must handle. Check this item is within the confirmed scope and its spec section is filled; if it needs an unfilled/undeclared capability, challenge back (§2.5) before building.
 2. Implement the smallest correct change. Surgical: touch only what's needed; match existing style; no drive-by refactors.
 3. Test as a first-class deliverable (per §2 Verification).
 4. Verify: run §5 commands; paste real command + real outcome.
