@@ -1,0 +1,5 @@
+# This template is code-free. Add language/build ignores when you instantiate it.
+.DS_Store
+*.log
+.env
+.env.*
