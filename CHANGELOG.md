@@ -2,6 +2,13 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.6.0 — 2026-06-09
+Add a full explainer document.
+- New `GUIDE.md`: the concept, the mental model, how a build runs end to end, the folder map,
+  what each file is for (purpose only — field detail stays in the files to avoid drift), a tiny
+  worked example, FAQ, and a "where to look for what" table.
+- README points newcomers to `GUIDE.md` first; lint now requires it.
+
 ## v0.5.1 — 2026-06-09
 More plain-English on the human-facing wording (industry-standard terms kept as-is).
 - AGENTS.md: "Frame"→"Plan", "Surgical/drive-by refactors"→"smallest correct change, don't

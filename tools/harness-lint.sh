@@ -12,7 +12,7 @@ note() { printf '%s\n' "$1"; }
 err()  { printf 'FAIL: %s\n' "$1"; fail=1; }
 
 # 1. Required files exist.
-required="AGENTS.md README.md SETUP.md \
+required="AGENTS.md README.md SETUP.md GUIDE.md \
 docs/agent/00-mission.md docs/agent/01-architecture-rules.md docs/agent/02-build-plan.md \
 docs/agent/03-backlog.md docs/agent/04-acceptance-criteria.md docs/agent/05-scenarios.md \
 docs/agent/06-integration-and-stack.md docs/agent/07-security-and-secrets.md \

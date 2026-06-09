@@ -17,6 +17,8 @@ Version: see [`CHANGELOG.md`](CHANGELOG.md). New to a word? See **[Words we use]
 - [`tools/harness-lint.sh`](tools/harness-lint.sh), [`.github/workflows/harness.yml`](.github/workflows/harness.yml),
   [`.pre-commit-config.yaml`](.pre-commit-config.yaml) — the harness checks itself, and gives
   you a place to plug in your build/test commands.
+- [`GUIDE.md`](GUIDE.md) — the full explanation: the idea, how a build runs, the folder map, and
+  what each file is for. **Start here if you're new.**
 - [`SETUP.md`](SETUP.md) — the step-by-step setup checklist.
 
 ## How it works
@@ -72,7 +74,8 @@ It is **not yet moved onto these rules** — until it is, treat it as a related 
 proven one. (Add the repo link here once moved.)
 
 ## Getting started
-See [`SETUP.md`](SETUP.md). Run `sh tools/harness-lint.sh` any time to check the files are consistent.
+New here? Read [`GUIDE.md`](GUIDE.md) first, then follow [`SETUP.md`](SETUP.md). Run
+`sh tools/harness-lint.sh` any time to check the files are consistent.
 
 ## Words we use
 - **Harness** — the set of rules and files around the AI agent that guide how it builds.
