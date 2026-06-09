@@ -17,7 +17,7 @@ The org runbook can make a rule STRICTER, never weaker. If something isn't spell
 - Controls before optimization: mandatory controls/gates/eligibility run and pass BEFORE any scoring/ranking. A failed blocking control excludes a candidate; it is never a low score.
 - AI assists only: non-deterministic components (LLM/ML) explain and assist; they never make, score, override, approve, or execute a control or value-moving decision, and their output is never fed back as an instruction or decision input. Controls in docs/agent/08 (untrusted input, output validation, redaction, fallback, model governance).
 - Fail closed: on error, timeout, or ambiguity in a control path, deny/hold — never allow by default.
-- One immutable decision record is the source of truth for each material decision; views/explanations derive from it and cannot alter it.
+- One immutable decision record is the source of truth for each important decision; views/explanations are built from it and cannot change it.
 - Point-of-no-return is explicit: before it, recover/reverse; after it, only servicing/investigation/reconciliation — never silent retry.
 - Extra hard rules for this project: see docs/agent/01-architecture-rules.md.
 
@@ -25,7 +25,7 @@ The org runbook can make a rule STRICTER, never weaker. If something isn't spell
 - Value safety: a money move either completes exactly as intended or not at all — no partial, duplicate, wrong-amount, or wrong-destination effect. Prove it by a reconciliation check or a test.
 - Idempotency (safe to retry): every state-changing operation takes an idempotency key (a unique id for the request), so running it again does nothing extra.
 - Exception handling: Do map typed/domain errors to stable codes (RFC 7807) and distinguish retryable vs terminal. Don't swallow exceptions or catch-and-continue silently.
-- Audit: every material decision and state transition emits an immutable, append-only event with a correlation id. Never best-effort.
+- Audit: every important decision and state change writes an immutable, add-only event with a correlation id. It is never optional.
 - Logging/observability: Do use structured logs with correlation id and metrics on key paths. Don't log secrets or sensitive data; failures must be diagnosable from logs alone.
 - Security baseline: Do enforce authN/authZ server-side, deny by default, least privilege, parameterize/output-encode, validate input at the boundary. Don't put secrets in code/logs/traces/fixtures or hand-roll crypto/auth.
 - Secrets & keys: Do store every secret/key in an approved vault/HSM matched to its data classification, inject it at runtime, rotate it, and record its classification + store (see docs/agent/07). Don't commit a secret to repo/config/image/IaC, store one below its required tier, or send secrets/keys/PAN to logs or the AI boundary. A CI secret-scan gate must pass before merge.
@@ -45,9 +45,9 @@ Least you need to start: 00 (mission) and at least one item in 03 (backlog). Wit
 
 ## 3. HOW TO WORK — one backlog item at a time, in order (docs/agent/03-backlog.md)
 0. Kickoff (first run, and whenever scope changes): first READ AGENTS.md and the docs/agent/ spec. If STATE.md already records a confirmed scope and nothing changed, proceed. Otherwise produce a scope read-back from 00, 03, the `Scope:` markers and the capability sections — list what you WILL build (in scope) and what you WON'T (blank / `Not used`) — and explicitly ASK the user to confirm or correct it. Do not build until they confirm. Record the agreed scope in STATE.md, then start. This is the §2.5 confirmation step.
-1. Frame: success condition PLUS the failure/abuse cases it must handle. Check this item is within the confirmed scope and its spec section is filled; if it needs an unfilled/undeclared capability, challenge back (§2.5) before building.
-2. Implement the smallest correct change. Surgical: touch only what's needed; match existing style; no drive-by refactors.
-3. Test as a first-class deliverable (per §2 Verification).
+1. Plan: write the success condition PLUS the failure and misuse cases it must handle. Check this item is within the confirmed scope and its spec section is filled; if it needs a blank/undeclared part, stop and ask (§2.5) before building.
+2. Make the smallest correct change: touch only what's needed, match the existing style, and don't change unrelated code.
+3. Write the tests as part of the work, not later (per §2 Verification).
 4. Verify: run §5 commands; paste real command + real outcome.
 5. Self-review gate (§4), then tick the box.
 6. Append to docs/agent/history.md and rewrite docs/agent/STATE.md.
@@ -55,7 +55,7 @@ Don't pause between items unless a Stop condition (§6) fires.
 
 ## 4. REVIEW
 - Per item (self-review, brief, in the history entry): Which §2 rules + which of the 5 acceptance buckets apply — each satisfied or N/A with reason? What input/sequence breaks this, and is there a test? Anything touched that shouldn't be, or an abstraction with no caller — revert it. Any control/value decision routed through an AI component (must be no)? Docs/ADR/STATE consistent?
-- Per phase boundary: spawn a FRESH reviewer subagent (separate context). Scope it to correctness and stated requirements only — do not chase invented or stylistic gaps. Fix what affects correctness; log the rest as optional.
+- At the end of each phase: start a fresh second agent (with its own clean context) to double-check the work. Tell it to look only at correctness and the stated requirements — don't invent problems or nitpick style. Fix what affects correctness; note the rest as optional.
 
 ## 5. COMMANDS (how to build, test, check)
 Build, unit, integration, lint/format, type-check, security/dependency scan, UI smoke — see docs/agent/02. If they aren't written yet, propose them while you scaffold the project and ask the user to confirm — the user does not have to write them by hand up front. Running these checks locally must not need live external systems or production access.
@@ -65,7 +65,7 @@ Requirements contradict each other or a hard rule (§1) · a security/compliance
 
 ## 7. STAY FOCUSED — manage what you read
 - Read STATE.md (the short live summary), not the whole history. Read just the part of a file you need, not the whole file. Keep changes small.
-- Hand off wide searches (looking across many files) to a subagent so it returns a short summary instead of filling up your context.
+- Hand off wide searches (looking across many files) to a helper agent so it returns a short summary instead of filling up your context.
 - Once the log gets long, split it into STATE.md (rewritten each time) + history.md (only added to). One file is fine while it's short.
 
 ## 8. KEEP A LOG OF WHAT YOU DID — a record that is only added to, never edited (docs/agent/history.md)

@@ -36,7 +36,7 @@ After that it works one to-do item at a time, tests every part and shows the pro
 own work, and (at the end of each phase) a fresh second agent double-checks it. Everything it
 does is written to an add-only log.
 
-## Fill only what you need (so it doesn't become shelf-ware)
+## Fill only what you need (so teams actually use it)
 You don't need every file on day one. **Blanks are meaningful:**
 - **Leave a section blank** (a database, a queue, file transfer, AI, etc.) and the agent treats
   that part as **not in this build** and won't build it.

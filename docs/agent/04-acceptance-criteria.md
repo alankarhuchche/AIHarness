@@ -5,7 +5,7 @@ Every change is accepted only when the applicable buckets below pass, with evide
 acceptance. **Functionality and Security always apply.** Resilience, RTO and SLA may be N/A
 with a recorded reason.
 
-> These buckets are the acceptance *lens* for review and sign-off. The canonical rules they
+> These buckets are the checklist for review and sign-off. The actual rules they
 > check live in AGENTS.md §1–§2 and docs 06–08 — this file references them, it does not restate
 > them, so there is one source of truth per rule.
 

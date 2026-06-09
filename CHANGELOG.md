@@ -2,6 +2,14 @@
 
 All notable changes to the harness template. The contract version is what consumers pin to.
 
+## v0.5.1 — 2026-06-09
+More plain-English on the human-facing wording (industry-standard terms kept as-is).
+- AGENTS.md: "Frame"→"Plan", "Surgical/drive-by refactors"→"smallest correct change, don't
+  change unrelated code", "first-class deliverable"→"tests as part of the work", "spawn a
+  reviewer subagent"→"start a fresh second agent", "material"→"important", "never best-effort"
+  →"never optional".
+- README: "shelf-ware"→"so teams actually use it". 04: "canonical/lens"→"actual/checklist".
+
 ## v0.5.0 — 2026-06-09
 Plainer English for a wider, basic-English audience, plus the commands change.
 - Commands: the agent now proposes build/test commands while scaffolding and the user confirms —
