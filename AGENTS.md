@@ -26,6 +26,7 @@ The org runbook may make a rule STRICTER, never weaker. Underspecified? Choose t
 - Audit: every material decision and state transition emits an immutable, append-only event with a correlation id. Never best-effort.
 - Logging/observability: Do use structured logs with correlation id and metrics on key paths. Don't log secrets or sensitive data; failures must be diagnosable from logs alone.
 - Security baseline: Do enforce authN/authZ server-side, deny by default, least privilege, parameterize/output-encode, validate input at the boundary. Don't put secrets in code/logs/traces/fixtures or hand-roll crypto/auth.
+- Secrets & keys: Do store every secret/key in an approved vault/HSM matched to its data classification, inject it at runtime, rotate it, and record its classification + store (see docs/agent/07). Don't commit a secret to repo/config/image/IaC, store one below its required tier, or send secrets/keys/PAN to logs or the AI boundary. A CI secret-scan gate must pass before merge.
 - Verification & evidence (this is what stops "built but never tested"):
   - Test every component at the lowest sufficient layer — services→unit (incl. error/idempotency/authz paths), APIs→integration against the running service, UI→automated smoke (render + key route + one interaction) AND a runtime check (drive the app, capture a clean screenshot/console), each docs/agent/05 scenario→one end-to-end pass.
   - Do show evidence: paste the real command and its real output (test summary, build log, screenshot path). Don't assert "seems right"/"should work", skip a layer because it's hard, or say "I'll test later".
@@ -48,7 +49,7 @@ Don't pause between items unless a Stop condition (§6) fires.
 Build, unit, integration, lint/format, type-check, security/dependency scan, UI smoke — see docs/agent/02. Local verification must not require live external credentials or production infra.
 
 ## 6. STOP CONDITIONS — halt and report; don't guess
-Requirements contradict each other or an INVARIANT · a security/compliance/control boundary would be crossed · missing credentials or denied permission · build can't progress after reasonable local debugging · an irreversible/destructive action is required that the spec didn't authorize.
+Requirements contradict each other or an INVARIANT · a security/compliance/control boundary would be crossed · a secret/key would have to be committed to the repo or stored below the tier its data classification requires · missing credentials or denied permission · build can't progress after reasonable local debugging · an irreversible/destructive action is required that the spec didn't authorize.
 
 ## 7. CONTEXT DISCIPLINE
 - Read STATE.md (live snapshot), not the full history. Prefer narrow, targeted reads over whole-file reads. Keep diffs small.
@@ -60,4 +61,4 @@ Append one entry per completed/blocked item; never rewrite (corrections are new 
 timestamp · item · change summary · files · commands run + REAL outcomes · verification evidence · ADR refs · next item · blockers.
 
 ## References (loaded on demand)
-docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · 06-integration-and-stack.md (db, eventing, MQ, APIs, file transfer, data egress, crypto) · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)
+docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · 06-integration-and-stack.md (db, eventing, MQ, APIs, file transfer, data egress, crypto) · 07-security-and-secrets.md (secrets/key management by data classification) · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)

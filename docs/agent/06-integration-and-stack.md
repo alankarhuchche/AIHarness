@@ -77,6 +77,9 @@
 - Used? <fill-in>
 - Considerations: HSM/KMS for keys; vault/tokenization for PAN/sensitive identifiers (PCI-DSS);
   field-level encryption where required; key rotation; no secrets in code/logs/traces/fixtures.
+- Full control set (classification → store matrix, key lifecycle, mTLS/PKI, PAM, pipeline
+  secret-scan, redaction): see `07-security-and-secrets.md`. That file is mandatory for any
+  app handling credentials, keys, PAN or PII.
 
 ## J. Reference data, FX, calendars, limits
 - Used? <fill-in>

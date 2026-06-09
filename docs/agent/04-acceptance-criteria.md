@@ -21,6 +21,9 @@ with a recorded reason.
 - All external input validated/canonicalized at the boundary; no injection vectors.
 - No secrets in code/logs/traces/fixtures; sensitive data classified and redacted before
   logging or third-party/AI calls.
+- Every secret/key stored in an approved vault/HSM matched to its data classification; secret-
+  scan gate passes; rotation/revocation paths exist (see `07-security-and-secrets.md`).
+- TLS/mTLS and approved algorithms on touched paths; no deprecated ciphers.
 - Immutable audit event emitted for every material decision/state transition.
 
 ## D. RTO (recovery)

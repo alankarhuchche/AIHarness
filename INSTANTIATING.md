@@ -32,8 +32,14 @@ Do these in order. Steps 1–6 are required before the first kickoff; the rest h
    confirm the per-pattern harness considerations. The cross-cutting checklist is mandatory
    where a pattern is used.
 
-8. **(Optional) Add `docs/agent/org-runbook.md`** — your org's engineering standards. It can
-   make any rule stricter, never weaker.
+8. **Fill `docs/agent/07-security-and-secrets.md`** — set the bank's data-classification scheme
+   and the storage-by-classification matrix (vault/HSM/PAM per tier), key lifecycle, mTLS/PKI,
+   approved algorithms, and the secret-scan tooling. Mandatory for any app handling credentials,
+   keys, PAN or PII. The bank's infosec policy (via `org-runbook.md`) is authoritative and may
+   only make these controls stricter.
+
+8b. **(Optional) Add `docs/agent/org-runbook.md`** — your org's engineering & security standards.
+   It can make any rule stricter, never weaker.
 
 9. **Fill `docs/agent/04-acceptance-criteria.md`** per path as you go — the five buckets:
    Functionality, Resilience, Security, RTO, SLA. Functionality and Security always apply;
@@ -46,5 +52,6 @@ Do these in order. Steps 1–6 are required before the first kickoff; the rest h
 - [ ] `AGENTS.md` unchanged and present.
 - [ ] 00, 01, 02 (commands), 03, 05 filled — no `<fill-in>` markers left in those.
 - [ ] 06 filled for every integration the app uses; cross-cutting checklist satisfied.
+- [ ] 07 filled: classification scheme + storage matrix set; secret-scan command wired in 02.
 - [ ] Every §2B conditional rule has a target or an N/A-with-reason in `01`.
 - [ ] Commands in `02` actually run locally without live external credentials.
