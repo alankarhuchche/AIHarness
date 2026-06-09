@@ -13,22 +13,22 @@
 > via idempotent producers + idempotent/deduplicating consumers.
 
 ## A. Persistence (system of record)
-- Used? <fill-in> · Technology: <fill-in: e.g. PostgreSQL>
+- Used? <fill-in> · Technology: <fill-in: relational database>
 - Considerations:
   - ACID transactions around value-affecting writes; optimistic locking for concurrent updates.
   - Idempotency-key store (request → result) so retried operations don't double-post.
   - Money as a precise decimal/typed amount — never floating point; currency always paired.
   - Ledger/posting model if applicable (double-entry, balanced postings, immutable journal).
-  - Schema migrations are versioned, forward-only, and backward-compatible (e.g. Flyway/Liquibase).
+  - Schema migrations are versioned, forward-only, and backward-compatible (via a migration tool).
   - Transactional outbox table for reliable event publication.
 
 ## B. Caching / fast state
-- Used? <fill-in> · Technology: <fill-in: e.g. Redis>
+- Used? <fill-in> · Technology: <fill-in: cache / in-memory store>
 - Considerations: dedup / idempotency-key TTL store; rate-limit & velocity counters; never the
   source of truth for value state; cache invalidation has a defined consistency story.
 
 ## C. Event streaming
-- Used? <fill-in> · Technology: <fill-in: e.g. Kafka>
+- Used? <fill-in> · Technology: <fill-in: event streaming platform>
 - Considerations:
   - Idempotent producer; partition key chosen for required ordering (e.g. by account/payment).
   - Consumers idempotent and deduplicating; manual offset commit after successful processing.
@@ -37,7 +37,7 @@
   - Effectively-once via outbox + consumer dedup; document at-least-vs-exactly-once stance.
 
 ## D. Message queues / host integration
-- Used? <fill-in> · Technology: <fill-in: e.g. IBM MQ, RabbitMQ, SQS>
+- Used? <fill-in> · Technology: <fill-in: message broker / queue>
 - Considerations: at-least-once delivery → consumer dedup; DLQ + redelivery limits; FIFO/ordering
   where required; transactional send/receive with the DB where possible; mainframe/host MQ
   contracts versioned; poison-message quarantine.
@@ -57,7 +57,7 @@
   versioned WSDL contracts; map faults to typed/terminal-vs-retryable errors.
 
 ## G. File transfer / batch
-- Used? <fill-in> · Mechanism: SFTP · Connect:Direct (NDM) · <fill-in>
+- Used? <fill-in> · Mechanism: <fill-in: SFTP / managed file transfer (MFT)>
 - Considerations:
   - Idempotent ingestion: dedup by file hash / sequence number; reject duplicates; control totals
     and record counts reconciled before processing.
@@ -68,7 +68,7 @@
 ## H. Data egress / analytics
 - Used? <fill-in> · Target: data lake / lakehouse · warehouse · <fill-in>
 - Considerations:
-  - CDC (e.g. Debezium) or batch export; schema contract with the lake; no dual-write of value
+  - Change-data-capture (CDC) or batch export; schema contract with the lake; no dual-write of value
     state. Tokenize/mask PII before it leaves the trust boundary.
   - Clarify System of Record (authoritative) vs System of Engagement / System of Insight
     (derived, read-only); derived stores never write back value state.
@@ -92,13 +92,13 @@
   worked; post-point-of-no-return issues go to servicing/investigation, never silent retry.
 
 ## L. Observability across boundaries
-- Considerations: a single correlation/trace id propagates across HTTP, MQ, Kafka and file hops;
+- Considerations: a single correlation/trace id propagates across HTTP, MQ, event-stream and file hops;
   metrics/SLOs per integration; structured logs without sensitive data; alerting on DLQ growth,
   reconciliation breaks, and SLA/RTO breaches.
 
 ## M. UI & test automation stack
 - UI framework: <fill-in> · Design system/component library: <fill-in>
-- Test automation: <fill-in: e.g. Playwright for E2E + UI smoke> · unit/integration: <fill-in>
+- Test automation: <fill-in: E2E / UI automation tool> · unit/integration: <fill-in>
 - Considerations: UI smoke and scenario E2E are mandatory verification (AGENTS.md §2); capture a
   screenshot/clean console as evidence; accessibility and currency/locale formatting checked.
 

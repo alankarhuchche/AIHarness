@@ -26,7 +26,7 @@ Each phase boundary triggers a fresh reviewer subagent (AGENTS.md §4).
 | Integration tests | `<fill-in>` |
 | Lint / format | `<fill-in>` |
 | Type-check | `<fill-in>` |
-| Secret scan (blocking gate) | `<fill-in: e.g. gitleaks>` |
+| Secret scan (blocking gate) | `<fill-in: secret scanner>` |
 | Security / dependency scan (SAST/SCA + SBOM) | `<fill-in>` |
-| UI smoke (render + interaction + screenshot) | `<fill-in: e.g. Playwright>` |
+| UI smoke (render + interaction + screenshot) | `<fill-in: UI/E2E automation tool>` |
 | Integration/contract smoke (db, eventing, MQ, file) | `<fill-in: see 06-integration-and-stack.md>` |

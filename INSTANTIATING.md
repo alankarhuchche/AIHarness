@@ -27,7 +27,7 @@ Do these in order. Steps 1–6 are required before the first kickoff; the rest h
    These drive the E2E layer of verification.
 
 7. **Fill `docs/agent/06-integration-and-stack.md`** — for every integration the app uses
-   (database, event streaming/Kafka, MQ, sync APIs, SOAP, file transfer, data-lake egress,
+   (database, event streaming, MQ, sync APIs, SOAP, file transfer, data-lake egress,
    crypto/secrets, reconciliation, UI/test stack), mark Used/Not used, pick the technology, and
    confirm the per-pattern harness considerations. The cross-cutting checklist is mandatory
    where a pattern is used.

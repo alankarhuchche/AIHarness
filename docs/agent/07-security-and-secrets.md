@@ -14,8 +14,8 @@
   matched to that classification (matrix in §2). No secret is stored below its required tier.
 - Secrets are injected at runtime from the approved store — never baked into images, env files
   committed to source, or build args. Prefer short-lived/dynamic credentials over static ones.
-- Workloads authenticate with **workload identity / federation** (e.g. OIDC, SPIFFE, cloud
-  workload identity). No long-lived static cloud keys or shared service passwords.
+- Workloads authenticate with **federated workload identity** (<fill-in: identity standard/
+  mechanism>). No long-lived static cloud keys or shared service passwords.
 - Crypto and secrets handling use vetted, approved libraries and managed services — never
   hand-rolled crypto, custom key derivation, or home-grown token formats.
 
@@ -32,9 +32,9 @@ For each secret/key, classification dictates where it lives and how it's protect
 
 | Data class | Secret/key store | At-rest encryption | Key custody | Access |
 |------------|------------------|--------------------|-------------|--------|
-| Internal | <fill-in: cloud Secret Manager / Vault KV> | provider-managed KMS | single-control | service identity, least privilege |
-| Confidential (PII, account) | <fill-in: HashiCorp Vault / cloud Secret Manager + CMK> | customer-managed key (CMK) via KMS, envelope encryption | KMS-managed, rotated | role-based, JIT, fully audited |
-| Highly Restricted (keys, PAN, root creds) | <fill-in: HSM-backed KMS + privileged vault (e.g. CyberArk)> | **HSM-protected** (FIPS 140-2/3 L3), envelope (KEK→DEK) | dual control + split knowledge (M-of-N) | break-glass only, JIT, dual approval, recorded |
+| Internal | <fill-in: approved secrets manager> | provider-managed KMS | single-control | service identity, least privilege |
+| Confidential (PII, account) | <fill-in: approved secrets manager + CMK> | customer-managed key (CMK) via KMS, envelope encryption | KMS-managed, rotated | role-based, JIT, fully audited |
+| Highly Restricted (keys, PAN, root creds) | <fill-in: HSM-backed KMS + privileged-access vault (PAM)> | **HSM-protected** (FIPS 140-2/3 L3), envelope (KEK→DEK) | dual control + split knowledge (M-of-N) | break-glass only, JIT, dual approval, recorded |
 
 - Root/key-encrypting keys (KEK) are HSM-resident and never leave the HSM in plaintext; data
   keys (DEK) are wrapped by the KEK (envelope encryption).
@@ -59,13 +59,13 @@ For each secret/key, classification dictates where it lives and how it's protect
 - Certificate private keys are Highly Restricted; stored per §2; never in the repo.
 
 ## 5. Privileged & human access
-- Privileged credentials in a PAM/vault (e.g. CyberArk); just-in-time, time-boxed, dual-approval
-  for production; every retrieval audited. Break-glass is logged, alerted, and post-reviewed.
+- Privileged credentials in a PAM / privileged-access vault; just-in-time, time-boxed, dual-
+  approval for production; every retrieval audited. Break-glass is logged, alerted, post-reviewed.
 - Separation of duties: the identity that writes code cannot unilaterally read production
   secrets; environment isolation — production secrets/keys never exist in non-prod.
 
 ## 6. Pipeline & supply chain
-- Secret-scan (e.g. <fill-in: gitleaks / trufflehog>) runs pre-commit AND as a blocking CI gate;
+- Secret-scan (<fill-in: secret-scanning tool>) runs pre-commit AND as a blocking CI gate;
   a finding fails the build. Periodic scan of full git history.
 - CI/CD authenticates to clouds via OIDC federation — no static deploy keys in the runner.
 - SBOM + dependency/vuln scan; pin and verify dependencies (signatures/checksums).
