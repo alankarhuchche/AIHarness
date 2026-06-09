@@ -1,0 +1,21 @@
+# Pre-commit hooks for the harness. Starter config — add your chosen secret scanner.
+# Install: pip install pre-commit && pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: harness-lint
+        name: harness-lint
+        entry: sh tools/harness-lint.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Add a secret scanner as a blocking local hook (AGENTS.md §2 Secrets & keys).
+  # Tooling is left to the project (07-security-and-secrets.md). Example shape:
+  # - repo: local
+  #   hooks:
+  #     - id: secret-scan
+  #       name: secret-scan
+  #       entry: <fill-in: secret scanner command>
+  #       language: system
+  #       pass_filenames: false

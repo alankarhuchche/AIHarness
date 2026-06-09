@@ -102,6 +102,22 @@
 - Considerations: UI smoke and scenario E2E are mandatory verification (AGENTS.md §2); capture a
   screenshot/clean console as evidence; accessibility and currency/locale formatting checked.
 
+## Testing integrations without live infra
+Local verification must not need live external systems (AGENTS.md §5), yet every integration
+must still be tested. Use, in rough order of preference:
+- **Ephemeral containers** — spin up a real DB/broker/queue in a throwaway container for the test,
+  tear it down after. Closest to production behaviour for stateful infra.
+- **Consumer-driven contract tests** — assert the request/response or message schema against a
+  shared contract, so both sides stay compatible without a live partner.
+- **In-memory fakes / stubs** — for third-party APIs and host systems you can't run locally;
+  keep them behind the same interface as the real client.
+- **Recorded-and-replayed interactions** — capture a real interaction once, replay deterministically
+  in tests to assert call sequence and handling.
+- **Sandbox endpoints** — only where a vendor provides one and no credential/secret is required
+  locally; never point local tests at production.
+Each integration names its chosen method in this file. "Can't test it locally" is not an excuse
+to skip — pick one of the above.
+
 ## Cross-cutting checklist (every integration above must satisfy)
 - [ ] Idempotent on retry; effectively-once where value or events are involved.
 - [ ] Ordering/dedup strategy defined where it matters.

@@ -5,26 +5,25 @@ Every change is accepted only when the applicable buckets below pass, with evide
 acceptance. **Functionality and Security always apply.** Resilience, RTO and SLA may be N/A
 with a recorded reason.
 
+> These buckets are the acceptance *lens* for review and sign-off. The canonical rules they
+> check live in AGENTS.md §1–§2 and docs 06–08 — this file references them, it does not restate
+> them, so there is one source of truth per rule.
+
 ## A. Functionality
 - Specified behaviour is implemented and matches `05-scenarios.md`.
 - Each scenario produces the expected outcome, deterministically and reproducibly.
 - Blocked/excluded paths surface the correct reason, not a generic failure.
 
 ## B. Resilience
-- Retryable vs terminal errors distinguished; retries bounded with backoff.
-- Operations idempotent: replay/duplicate causes no double side effect.
-- Partial failure, timeout, and out-of-order events handled and tested.
-- Fails closed on control/security paths.
+- Idempotency, retry/backoff, fail-closed, partial-failure and out-of-order handling per
+  AGENTS.md §2 — verified by test, including the failure paths (not just the happy path).
+- DLQ/quarantine and recovery behaviour exercised for the integrations in `06`.
 
 ## C. Security
-- AuthN/AuthZ enforced server-side; deny by default; least privilege.
-- All external input validated/canonicalized at the boundary; no injection vectors.
-- No secrets in code/logs/traces/fixtures; sensitive data classified and redacted before
-  logging or third-party/AI calls.
-- Every secret/key stored in an approved vault/HSM matched to its data classification; secret-
-  scan gate passes; rotation/revocation paths exist (see `07-security-and-secrets.md`).
-- TLS/mTLS and approved algorithms on touched paths; no deprecated ciphers.
-- Immutable audit event emitted for every material decision/state transition.
+- Per AGENTS.md §2 (Security baseline + Secrets & keys) and docs `07`/`08`:
+  authN/Z and input validation verified; secret-scan gate passes; secrets/keys stored per
+  classification; TLS/mTLS and approved algorithms on touched paths; redaction confirmed at log
+  and AI boundaries; immutable audit event emitted. Evidence attached, not asserted.
 
 ## D. RTO (recovery)
 - Each stateful component has a documented recovery path and target recovery time.

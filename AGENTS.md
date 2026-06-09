@@ -11,9 +11,9 @@ The org runbook may make a rule STRICTER, never weaker. Underspecified? Choose t
 - Do: record every non-trivial choice as a short ADR in docs/agent/adr/NNN-title.md (context, decision, consequences). When 2–3 reasonable approaches exist, write a decision table and pick before coding.
 
 ## 1. INVARIANTS — never violate; a task that would breach one is a Stop condition
-- Value integrity: never move value incorrectly. If correctness, amount, destination, or exactly-once cannot be guaranteed — hold and escalate, don't proceed.
+- Value integrity: never move value incorrectly. If correctness, amount, destination, or effectively-once (no duplicate or lost value) cannot be guaranteed — hold and escalate, don't proceed.
 - Controls before optimization: mandatory controls/gates/eligibility run and pass BEFORE any scoring/ranking. A failed blocking control excludes a candidate; it is never a low score.
-- AI assists only: non-deterministic components (LLM/ML) explain and assist; they never make, score, override, approve, or execute a control or value-moving decision.
+- AI assists only: non-deterministic components (LLM/ML) explain and assist; they never make, score, override, approve, or execute a control or value-moving decision, and their output is never fed back as an instruction or decision input. Controls in docs/agent/08 (untrusted input, output validation, redaction, fallback, model governance).
 - Fail closed: on error, timeout, or ambiguity in a control path, deny/hold — never allow by default.
 - One immutable decision record is the source of truth for each material decision; views/explanations derive from it and cannot alter it.
 - Point-of-no-return is explicit: before it, recover/reverse; after it, only servicing/investigation/reconciliation — never silent retry.
@@ -61,4 +61,4 @@ Append one entry per completed/blocked item; never rewrite (corrections are new 
 timestamp · item · change summary · files · commands run + REAL outcomes · verification evidence · ADR refs · next item · blockers.
 
 ## References (loaded on demand)
-docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · 06-integration-and-stack.md (db, eventing, MQ, APIs, file transfer, data egress, crypto) · 07-security-and-secrets.md (secrets/key management by data classification) · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)
+docs/agent/00-mission.md · 01-architecture-rules.md (project invariants + conditional rules) · 02-build-plan.md (+commands) · 03-backlog.md · 04-acceptance-criteria.md (5 buckets) · 05-scenarios.md · 06-integration-and-stack.md (db, eventing, MQ, APIs, file transfer, data egress, crypto) · 07-security-and-secrets.md (secrets/key management by data classification) · 08-ai-model-risk.md (model risk + prompt-injection defence) · 09-traceability.md (control→test matrix) · STATE.md · history.md · adr/ · org-runbook.md (org standards; optional)

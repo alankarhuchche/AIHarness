@@ -1,6 +1,8 @@
 # Instantiating the harness for a new payments application
 
-Do these in order. Steps 1–6 are required before the first kickoff; the rest happen during the build.
+You don't need every file on day one — see the **Minimal vs full** section in the README.
+Steps 1–6 are the minimal set required before the first kickoff; 7–11 are added by relevance.
+Do them roughly in order.
 
 1. **Copy the template** into your new project repo (copy the files; do not fork the git
    history). Keep `AGENTS.md` as-is — it's generic.
@@ -38,14 +40,25 @@ Do these in order. Steps 1–6 are required before the first kickoff; the rest h
    keys, PAN or PII. The bank's infosec policy (via `org-runbook.md`) is authoritative and may
    only make these controls stricter.
 
-8b. **(Optional) Add `docs/agent/org-runbook.md`** — your org's engineering & security standards.
+9. **Fill `docs/agent/08-ai-model-risk.md`** — only if the app has an LLM/ML component. Set the
+   hard boundary, prompt-injection defences, output validation, model governance and fallback.
+
+10. **Fill `docs/agent/09-traceability.md`** — when you need an audit trail: link each invariant/
+   control and scenario to its backlog item, test and evidence. Keep it current per item.
+
+11. **(Optional) Add `docs/agent/org-runbook.md`** — your org's engineering & security standards.
    It can make any rule stricter, never weaker.
 
-9. **Fill `docs/agent/04-acceptance-criteria.md`** per path as you go — the five buckets:
+12. **Fill `docs/agent/04-acceptance-criteria.md`** per path as you go — the five buckets:
    Functionality, Resilience, Security, RTO, SLA. Functionality and Security always apply;
    Resilience/RTO/SLA may be N/A with a reason.
 
-10. **Kick off** with the one-line prompt from the README. The agent maintains
+13. **Declare instantiation & wire CI.** Create an empty `.harness-instantiated` file at the repo
+   root (turns on fill-in enforcement in `harness-lint`), fill the command stubs in
+   `.github/workflows/harness.yml` and `.pre-commit-config.yaml` from `02`, then run
+   `sh tools/harness-lint.sh`.
+
+14. **Kick off** with the one-line prompt from the README. The agent maintains
    `STATE.md` (live) and `history.md` (immutable activity record) itself from there.
 
 ## Sanity check before kickoff
@@ -53,5 +66,7 @@ Do these in order. Steps 1–6 are required before the first kickoff; the rest h
 - [ ] 00, 01, 02 (commands), 03, 05 filled — no `<fill-in>` markers left in those.
 - [ ] 06 filled for every integration the app uses; cross-cutting checklist satisfied.
 - [ ] 07 filled: classification scheme + storage matrix set; secret-scan command wired in 02.
+- [ ] 08 filled if an AI/ML component exists; injection/redaction/fallback tests planned.
 - [ ] Every §2B conditional rule has a target or an N/A-with-reason in `01`.
 - [ ] Commands in `02` actually run locally without live external credentials.
+- [ ] `.harness-instantiated` created and `sh tools/harness-lint.sh` passes.

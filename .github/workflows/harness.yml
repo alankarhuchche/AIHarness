@@ -1,0 +1,36 @@
+# Harness CI — gates the harness's own consistency, plus the project's verification commands.
+# This is a STUB. Fill in the build/test/secret-scan/UI steps from docs/agent/02-build-plan.md
+# when you instantiate the template. The harness-lint step works as-is.
+name: harness
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, so the secret scan can check it
+
+      - name: Harness consistency lint
+        run: sh tools/harness-lint.sh
+
+      # --- Fill in from docs/agent/02 (blocking gates) -------------------------
+      # - name: Secret scan (blocking)
+      #   run: <fill-in: secret scanner over the diff AND full history>
+      # - name: Build
+      #   run: <fill-in>
+      # - name: Unit tests
+      #   run: <fill-in>
+      # - name: Integration tests
+      #   run: <fill-in>
+      # - name: Lint / type-check
+      #   run: <fill-in>
+      # - name: Security / dependency scan (SAST/SCA + SBOM)
+      #   run: <fill-in>
+      # - name: UI smoke (with screenshot evidence)
+      #   run: <fill-in>
