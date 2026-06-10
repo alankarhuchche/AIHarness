@@ -66,6 +66,7 @@ docs/agent/               The fill-in spec (WHAT to build):
   STATE.md                  Live summary (rewritten each time).
   history.md                Add-only log of everything done.
   org-runbook.md            Your organisation's standards (optional).
+  OWNERS.md                 Who is responsible for keeping each file accurate.
   adr/                      Short notes recording decisions and why.
 ```
 
@@ -98,6 +99,9 @@ docs/agent/               The fill-in spec (WHAT to build):
 - **history.md** — the add-only record of every finished/blocked item. Never edited.
 - **org-runbook.md** — drop your organisation's standards here; they can make rules stricter,
   never weaker.
+- **OWNERS.md** — who is responsible for keeping each file accurate and up to date. Maps
+  every file to a named role (product owner, solution architect, security, quality engineer,
+  devops, integrator, customer journey manager, enterprise architect, software engineer).
 - **adr/** — one short note per real decision (the situation, the choice, the result).
 
 ## 6. The three kinds of rule
